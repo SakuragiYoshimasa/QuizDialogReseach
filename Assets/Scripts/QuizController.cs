@@ -8,6 +8,7 @@ using UnityEngine;
 /// N:Move next quiz
 /// C:Play Correction
 /// F:Play Feedback Eliciation
+/// X:Repeat
 /// 
 /// ### User Reactions
 /// Q:Main Correct
@@ -53,11 +54,15 @@ public class QuizController : Singleton<QuizController> {
 	private ExperimentState expState;
 	private Dictionary<KeyCode, UserReactionType> keyBinds;
 
+	private const int WAIT_FRAME = 60;
+	private int nowFrame = 0;
+
+
 	void Start () {
 		expState = ExperimentState.StartScreen;
 		quizIndex = 0;
 		GUIManager.I.SetScreenTexture (startScreen);
-
+		keyBinds = new Dictionary<KeyCode, UserReactionType> (0);
 		keyBinds.Add (KeyCode.Q, UserReactionType.MainQuestionAnswerCorrect);
 		keyBinds.Add (KeyCode.W, UserReactionType.MainQuestionAnswerIncorrectWeak);
 		keyBinds.Add (KeyCode.E, UserReactionType.MainQuestionAnswerIncorrectStrong);
@@ -103,7 +108,17 @@ public class QuizController : Singleton<QuizController> {
 			return;
 		} //When is playing not disturb
 		if(!quizCollection[quizIndex].finishedMainQ()){
+
+
+			if (nowFrame < WAIT_FRAME) {
+				nowFrame++;
+				return;
+			} else {
+				nowFrame = 0;
+			}
+
 			SoundController.I.playSound (quizCollection[quizIndex].GetMainQ());
+			GUIManager.I.SetScreenTexture (quizCollection[quizIndex].GetQuizTexture());
 			return;
 		} //Play MainQ
 			
@@ -122,6 +137,8 @@ public class QuizController : Singleton<QuizController> {
 			CurrentQuizWillFinishAndSelectCorrection ();  //use correction when no hints and user like no idea
 		}else if(Input.GetKeyDown(KeyCode.F)){
 			SoundController.I.playSound (quizCollection[quizIndex].GetRandomFeedbackEliciation()); //for using when after hint or disagreement
+		}else if(Input.GetKeyDown(KeyCode.X)){
+			Repeat ();
 		}
 	}
 	void UpdateInAcknowledge(){
@@ -151,5 +168,9 @@ public class QuizController : Singleton<QuizController> {
 	}
 	AudioClip GetRandomMoveNextClip(){
 		return moveNextQuizs[(int)(Random.value * (float)moveNextQuizs.Count)];
+	}
+
+	void Repeat(){
+		SoundController.I.playSound (quizCollection[quizIndex].RequestedRepeat());
 	}
 }
