@@ -6,6 +6,8 @@ public class Quiz : MonoBehaviour {
 
 	[SerializeField] 
 	private Texture2D quizTexture;
+	[SerializeField] 
+	private Texture2D answerTexture;
 	[SerializeField]
 	private AudioClip selectedDialog;
 
@@ -24,6 +26,13 @@ public class Quiz : MonoBehaviour {
 	private bool usedReasonQ = false;
 	private bool usedConfirmQ = false;
 	#endregion
+
+	private bool saidCorrection = false;
+	public bool SaidCorrection {
+		get {
+			return saidCorrection;
+		}
+	}
 
 	public AudioClip GetNextDialog(UserReactionType userReaction){
 		float randomValue;
@@ -180,6 +189,7 @@ public class Quiz : MonoBehaviour {
 			if (hints.Count > 0) {
 				selectedDialog = GetHint ();
 			} else {
+				saidCorrection = true;
 				selectedDialog = correction;
 			}
 			break;
@@ -209,6 +219,9 @@ public class Quiz : MonoBehaviour {
 	public Texture2D GetQuizTexture(){
 		return quizTexture;
 	}
+	public Texture2D GetAnswerTexture(){
+		return answerTexture;
+	}
 	public bool finishedMainQ(){
 		return mainQuestion == null;
 	}
@@ -225,6 +238,7 @@ public class Quiz : MonoBehaviour {
 	}
 
 	public AudioClip GetCorrection(){
+		saidCorrection = true;
 		return correction;	
 	}
 

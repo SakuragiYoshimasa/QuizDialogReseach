@@ -140,6 +140,10 @@ public class QuizController : Singleton<QuizController> {
 		}else if(Input.GetKeyDown(KeyCode.X)){
 			Repeat ();
 		}
+
+		if(quizCollection[quizIndex].SaidCorrection){
+			GUIManager.I.SetScreenTexture (quizCollection[quizIndex].GetAnswerTexture());
+		}
 	}
 	void UpdateInAcknowledge(){
 		if(!SoundController.I.isPlaying()){
