@@ -13,7 +13,7 @@ public class SoundController : Singleton<SoundController> {
 
 	void Start(){
 		audioSource = this.GetComponent<AudioSource> ();
-		streamWriter = new StreamWriter ("LogText.txt", false);
+		streamWriter = new StreamWriter ("LogText_" + DateTime.Now.Month.ToString() + "_" + DateTime.Now.Day.ToString() + "_" +  DateTime.Now.Hour.ToString() + "_" + DateTime.Now.Minute.ToString() +".txt", false);
 	}
 	public bool playSound(AudioClip clip){
 		if (audioSource.isPlaying) {
@@ -40,13 +40,13 @@ public class SoundController : Singleton<SoundController> {
 	}
 
 	void LogStartAudio(){
-		streamWriter.WriteLine ((DateTime.Now.Hour * 60 *60 * 1000 + DateTime.Now.Minute * 60 * 1000 + 
-			DateTime.Now.Second * 1000 + DateTime.Now.Millisecond).ToString() +  ",START_AUDIO," + audioSource.clip.name);
+		streamWriter.WriteLine (DateTime.Now.Month.ToString() + "_" + DateTime.Now.Day.ToString()  + "_" +  DateTime.Now.Hour.ToString()  + "_" + DateTime.Now.Minute.ToString()  + "_" + 
+			DateTime.Now.Second.ToString()  + "_" + DateTime.Now.Millisecond.ToString() +  ",START_AUDIO," + audioSource.clip.name);
 	}
 
 	void LogEndAudio(){
-		streamWriter.WriteLine ((DateTime.Now.Hour * 60 *60 * 1000 + DateTime.Now.Minute * 60 * 1000 + 
-			DateTime.Now.Second * 1000 + DateTime.Now.Millisecond).ToString() +  ",END_AUDIO," + audioSource.clip.name);
+		streamWriter.WriteLine (DateTime.Now.Month.ToString() + "_" + DateTime.Now.Day.ToString()  + "_" +  DateTime.Now.Hour.ToString()  + "_" + DateTime.Now.Minute.ToString()  + "_" + 
+			DateTime.Now.Second.ToString()  + "_" + DateTime.Now.Millisecond.ToString() +  ",END_AUDIO," + audioSource.clip.name);
 	}
 
 	void OnDisable(){

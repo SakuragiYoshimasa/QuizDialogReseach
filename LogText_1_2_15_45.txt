@@ -1,0 +1,15 @@
+1_2_15_45_58_69,START_AUDIO,greeting
+1_2_15_46_35_284,END_AUDIO,greeting
+1_2_15_46_36_301,START_AUDIO,mainQuestion3
+1_2_15_46_40_718,END_AUDIO,mainQuestion3
+1_2_15_46_42_283,START_AUDIO,hint3_1
+1_2_15_46_46_816,END_AUDIO,hint3_1
+1_2_15_46_48_67,START_AUDIO,feedbackEliciation2
+1_2_15_46_50_133,END_AUDIO,feedbackEliciation2
+1_2_15_46_50_482,START_AUDIO,confirmQuestion1
+1_2_15_46_51_536,END_AUDIO,confirmQuestion1
+1_2_15_46_53_1,START_AUDIO,correction3
+1_2_15_47_1_315,END_AUDIO,correction3
+1_2_15_47_3_366,START_AUDIO,movenext1
+1_2_15_47_3_366,START_AUDIO,acknoledgement
+1_2_15_47_8_715,END_AUDIO,acknoledgement

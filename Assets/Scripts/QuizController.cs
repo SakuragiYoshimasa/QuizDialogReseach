@@ -133,6 +133,7 @@ public class QuizController : Singleton<QuizController> {
 
 		if(Input.GetKeyDown(KeyCode.N)){ 
 			MoveNextQuiz (); //when finish quiz, say correction or user say correction and agreemt
+			return;
 		}else if(Input.GetKeyDown(KeyCode.C)){
 			CurrentQuizWillFinishAndSelectCorrection ();  //use correction when no hints and user like no idea
 		}else if(Input.GetKeyDown(KeyCode.F)){
@@ -154,14 +155,18 @@ public class QuizController : Singleton<QuizController> {
 		SoundController.I.playSound (quizCollection[quizIndex].GetCorrection());
 	}
 	public void MoveNextQuiz(){
-		if (!SoundController.I.playSound (GetRandomMoveNextClip ())) {
+		if (!SoundController.I.isPlaying()) {
+
+			quizIndex++;
+			if (quizIndex >= quizCollection.Count) {
+				FinishQuiz ();
+			} else {
+				SoundController.I.playSound (GetRandomMoveNextClip ());
+				GUIManager.I.SetScreenTexture (quizCollection[quizIndex].GetQuizTexture());
+			}
+
+		}else{
 			return;
-		}
-		quizIndex++;
-		if (quizIndex >= quizCollection.Count) {
-			FinishQuiz ();
-		} else {
-			GUIManager.I.SetScreenTexture (quizCollection[quizIndex].GetQuizTexture());
 		}
 	}
 	void FinishQuiz(){
