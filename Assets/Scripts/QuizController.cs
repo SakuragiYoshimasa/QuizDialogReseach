@@ -66,8 +66,8 @@ public class QuizController : Singleton<QuizController> {
 		keyBinds.Add (KeyCode.Q, UserReactionType.MainQuestionAnswerCorrect);
 		keyBinds.Add (KeyCode.W, UserReactionType.MainQuestionAnswerIncorrectWeak);
 		keyBinds.Add (KeyCode.E, UserReactionType.MainQuestionAnswerIncorrectStrong);
-		keyBinds.Add (KeyCode.R, UserReactionType.ReasonQuestionAnswerCorrect);
-		keyBinds.Add (KeyCode.T, UserReactionType.ReasonQuestionAnswerIncorrect);
+		//keyBinds.Add (KeyCode.R, UserReactionType.ReasonQuestionAnswerCorrect);
+		//keyBinds.Add (KeyCode.T, UserReactionType.ReasonQuestionAnswerIncorrect);
 		keyBinds.Add (KeyCode.Y, UserReactionType.HaveNoIdea);
 		keyBinds.Add (KeyCode.U, UserReactionType.NoReaction);
 	}

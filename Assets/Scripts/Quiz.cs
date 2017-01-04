@@ -40,6 +40,22 @@ public class Quiz : MonoBehaviour {
 		switch(userReaction){
 			#region MAINQ_ANSWER_CORRECT 
 		case UserReactionType.MainQuestionAnswerCorrect:
+
+			//direct inform answer with a probability 30%
+			if(Random.value >= 0.7f){
+				saidCorrection = true;
+				selectedDialog = correction;
+			}else{
+
+				//50% agreement 50% confirmQ
+				if(Random.value >= 0.5f){
+					selectedDialog = DialogHolder.I.GetRandomConfirmQ();
+				}else{
+					selectedDialog = DialogHolder.I.GetRandomAgreemnt();
+				}
+			}
+			isSaidCorrection = true;
+			/*
 			if (!isSaidCorrection && (!usedConfirmQ || !usedReasonQ)) {
 				if (usedConfirmQ && !usedReasonQ) {
 					selectedDialog = DialogHolder.I.GetRandomReasonQ ();
@@ -60,10 +76,32 @@ public class Quiz : MonoBehaviour {
 				selectedDialog = DialogHolder.I.GetRandomAgreemnt();
 			}
 			isSaidCorrection = true;
+			*/
 			break; 
 				#endregion //ReasonQ confirmQ else agreement, if once corrected, isSaidCorrectionFlag is true, and next this pattern make agreement
 			#region MAINQ_ANSWER_INCORRECT_WEAK
 		case UserReactionType.MainQuestionAnswerIncorrectWeak:
+
+
+			//direct inform answer with a probability 30%
+			if(Random.value >= 0.7f){
+				saidCorrection = true;
+				selectedDialog = correction;
+			}else{
+				//50% disagreement 50% confirmQ
+				if(Random.value >= 0.5f){
+					selectedDialog = DialogHolder.I.GetRandomConfirmQ();
+				}else{
+					//50% weak and 50% simple
+					if(Random.value >= 0.5f){
+						selectedDialog = DialogHolder.I.GetRandomDisagreement_Weak();
+					}else{
+						selectedDialog = DialogHolder.I.GetRandomDisagreement_Simple();
+					}
+				}
+			}
+
+			/*
 
 			randomValue = Random.value;
 
@@ -111,12 +149,31 @@ public class Quiz : MonoBehaviour {
 					selectedDialog = DialogHolder.I.GetRandomDisagreement_Weak();;
 				}
 			}
-
+			*/
 			break;
 			#endregion //reasonQ, disagreement weak, disagreement simple, confirmQ hint
 			#region MAINQ_ANSWER_INCORRECT_STRONG
 		case UserReactionType.MainQuestionAnswerIncorrectStrong:
 
+			//direct inform answer with a probability 30%
+			if(Random.value >= 0.7f){
+				saidCorrection = true;
+				selectedDialog = correction;
+			}else{
+				//50% disagreement 50% confirmQ
+				if(Random.value >= 0.5f){
+					selectedDialog = DialogHolder.I.GetRandomConfirmQ();
+				}else{
+					//50% weak and 50% simple
+					if(Random.value >= 0.5f){
+						selectedDialog = DialogHolder.I.GetRandomDisagreement_Strong();
+					}else{
+						selectedDialog = DialogHolder.I.GetRandomDisagreement_Simple();
+					}
+				}
+			}
+
+			/*
 			randomValue = Random.value;
 
 			if (usedConfirmQ && !usedReasonQ) {//when Not used ResonQ
@@ -163,6 +220,7 @@ public class Quiz : MonoBehaviour {
 					selectedDialog = DialogHolder.I.GetRandomDisagreement_Weak();;
 				}
 			}
+			*/
 			break; 
 			#endregion //reasonQ, disagreement strong, disagreemnt simple, confirmQ hint
 			#region REASON_CORRECT
@@ -197,7 +255,8 @@ public class Quiz : MonoBehaviour {
 			#region NO_REACTION
 		case UserReactionType.NoReaction:
 			//hint or feedback eliciation
-			if(hints.Count > 0){
+			selectedDialog = GetRandomFeedbackEliciation ();	
+			/*if(hints.Count > 0){
 				if(Random.value >= 0.5f){
 					selectedDialog = GetHint();
 				}else{
@@ -206,6 +265,7 @@ public class Quiz : MonoBehaviour {
 			} else {
 				selectedDialog = GetRandomFeedbackEliciation ();	
 			}
+			*/
 			break;
 			#endregion //eliciation, or make hint. if use all hint, we can use eliciation and recommend use corrention with key command
 		default:
