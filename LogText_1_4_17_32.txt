@@ -1,0 +1,5 @@
+2017 / 01 / 04 17:32:45 358 : START_AUDIO_greeting
+2017 / 01 / 04 17:32:49 910 : END_AUDIO_greeting
+2017 / 01 / 04 17:33:37 423 : START_AUDIO_mainQuestion3
+2017 / 01 / 04 17:33:41 804 : END_AUDIO_mainQuestion3
+2017 / 01 / 04 17:33:47 693 : START_AUDIO_acknoledgement
