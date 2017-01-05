@@ -5,6 +5,12 @@ using UnityEngine;
 public class AnimationController : Singleton<AnimationController> {
 
 	[SerializeField]
-	private Animator animator;
+	private GameObject model;
+
+	void Update(){
+		if(Input.GetKeyDown(KeyCode.M)){
+			model.SetActive (!model.activeSelf);
+		}
+	}
 
 }
