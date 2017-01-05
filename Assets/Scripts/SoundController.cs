@@ -44,5 +44,6 @@ public class SoundController : Singleton<SoundController> {
 
 	void LogEndAudio(){
 		TimeStumpManager.I.WriteTimeStump ("END_AUDIO_" + audioSource.clip.name);
+		SpeechDetectionManager.I.waitDetection = true;
 	}
 }
