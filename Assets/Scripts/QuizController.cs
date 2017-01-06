@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 /// <summary>
 /// # Quiz controller.
 /// ## Key Binds are these
@@ -35,6 +36,10 @@ public class QuizController : Singleton<QuizController> {
 	private List<AudioClip> moveNextQuizs;
 	[SerializeField]
 	private AudioClip acknowledge;
+	[SerializeField]
+	private AudioClip yes1;
+	[SerializeField]
+	private AudioClip yes2;
 	#endregion
 	#region Textures
 	[SerializeField]
@@ -57,6 +62,10 @@ public class QuizController : Singleton<QuizController> {
 	private const int WAIT_FRAME = 60;
 	private int nowFrame = 0;
 
+	private const int WAIT_USERS_UTTERRANCE_SECONDS = 7;
+	private int previousTime;
+	public bool isWaitingResponse = false;
+
 
 	void Start () {
 		expState = ExperimentState.StartScreen;
@@ -66,10 +75,11 @@ public class QuizController : Singleton<QuizController> {
 		keyBinds.Add (KeyCode.Q, UserReactionType.MainQuestionAnswerCorrect);
 		keyBinds.Add (KeyCode.W, UserReactionType.MainQuestionAnswerIncorrectWeak);
 		keyBinds.Add (KeyCode.E, UserReactionType.MainQuestionAnswerIncorrectStrong);
-		keyBinds.Add (KeyCode.R, UserReactionType.ReasonQuestionAnswerCorrect);
-		keyBinds.Add (KeyCode.T, UserReactionType.ReasonQuestionAnswerIncorrect);
+		//keyBinds.Add (KeyCode.R, UserReactionType.ReasonQuestionAnswerCorrect);
+		//keyBinds.Add (KeyCode.T, UserReactionType.ReasonQuestionAnswerIncorrect);
 		keyBinds.Add (KeyCode.Y, UserReactionType.HaveNoIdea);
 		keyBinds.Add (KeyCode.U, UserReactionType.NoReaction);
+		SetNotWaiting ();
 	}
 	void StartGreeting(){
 		expState = ExperimentState.Greeting;
@@ -104,12 +114,13 @@ public class QuizController : Singleton<QuizController> {
 		}
 	}
 	void UpdateInExperiment(){
-		if(SoundController.I.isPlaying()){
+		if (SoundController.I.isPlaying ()) {
+			SetNotWaiting ();
 			return;
+		} else {
+			SetWaiting ();
 		} //When is playing not disturb
 		if(!quizCollection[quizIndex].finishedMainQ()){
-
-
 			if (nowFrame < WAIT_FRAME) {
 				nowFrame++;
 				return;
@@ -140,8 +151,14 @@ public class QuizController : Singleton<QuizController> {
 			SoundController.I.playSound (quizCollection[quizIndex].GetRandomFeedbackEliciation()); //for using when after hint or disagreement
 		}else if(Input.GetKeyDown(KeyCode.X)){
 			Repeat ();
+		}else if(Input.GetKeyDown(KeyCode.V)){
+			SoundController.I.playSound (yes1);
+		}else if(Input.GetKeyDown(KeyCode.B)){
+			SoundController.I.playSound (yes2);
 		}
-
+		if(isWaitingResponse){
+			TimeCheck ();
+		}
 		if(quizCollection[quizIndex].SaidCorrection){
 			GUIManager.I.SetScreenTexture (quizCollection[quizIndex].GetAnswerTexture());
 		}
@@ -176,10 +193,29 @@ public class QuizController : Singleton<QuizController> {
 		GUIManager.I.SetScreenTexture (acknowledgeScreen);
 	}
 	AudioClip GetRandomMoveNextClip(){
-		return moveNextQuizs[(int)(Random.value * (float)moveNextQuizs.Count)];
+		return moveNextQuizs[(int)(UnityEngine.Random.value * (float)moveNextQuizs.Count)];
 	}
 
 	void Repeat(){
 		SoundController.I.playSound (quizCollection[quizIndex].RequestedRepeat());
+	}
+
+	void TimeCheck(){
+		int now = DateTime.Now.Hour * 60 * 60 + DateTime.Now.Minute * 60 + DateTime.Now.Second;
+		if(now - previousTime >= WAIT_USERS_UTTERRANCE_SECONDS){
+			SoundController.I.playSound (quizCollection[quizIndex].GetRandomFeedbackEliciation());
+			previousTime = now;
+			isWaitingResponse = false;
+		}
+	}
+	void SetPreviousTime(){
+		previousTime = DateTime.Now.Hour * 60 * 60 + DateTime.Now.Minute * 60 + DateTime.Now.Second;
+	}
+	public void SetWaiting(){
+		isWaitingResponse = true;
+	}
+	public void SetNotWaiting(){
+		isWaitingResponse = false;
+		SetPreviousTime ();
 	}
 }

@@ -25,39 +25,37 @@ public class Quiz : MonoBehaviour {
 	private bool isSaidCorrection = false;
 	private bool usedReasonQ = false;
 	private bool usedConfirmQ = false;
-	#endregion
-
+	private bool saidMainQuestion = false;
 	private bool saidCorrection = false;
+	#endregion
 	public bool SaidCorrection {
 		get {
 			return saidCorrection;
 		}
 	}
-
+	public bool finishedMainQ(){
+		return saidMainQuestion;
+	}
 	public AudioClip GetNextDialog(UserReactionType userReaction){
 		float randomValue;
 
 		switch(userReaction){
 			#region MAINQ_ANSWER_CORRECT 
 		case UserReactionType.MainQuestionAnswerCorrect:
-			if (!isSaidCorrection && (!usedConfirmQ || !usedReasonQ)) {
-				if (usedConfirmQ && !usedReasonQ) {
-					selectedDialog = DialogHolder.I.GetRandomReasonQ ();
-					usedReasonQ = true;
-				} else if (!usedConfirmQ && usedReasonQ) {
-					selectedDialog = DialogHolder.I.GetRandomConfirmQ ();
+
+			//direct inform answer with a probability 30%
+			if(Random.value >= 0.7f){
+				saidCorrection = true;
+				selectedDialog = correction;
+			}else{
+
+				//50% agreement 50% confirmQ
+				if(Random.value >= 0.5f && !usedConfirmQ){
+					selectedDialog = DialogHolder.I.GetRandomConfirmQ();
 					usedConfirmQ = true;
-				} else {
-					if (Random.value >= 0.5f) {
-						selectedDialog = DialogHolder.I.GetRandomConfirmQ ();
-						usedConfirmQ = true;
-					} else {
-						selectedDialog = DialogHolder.I.GetRandomReasonQ ();
-						usedReasonQ = true;
-					}
+				}else{
+					selectedDialog = DialogHolder.I.GetRandomAgreemnt();
 				}
-			} else {
-				selectedDialog = DialogHolder.I.GetRandomAgreemnt();
 			}
 			isSaidCorrection = true;
 			break; 
@@ -65,102 +63,46 @@ public class Quiz : MonoBehaviour {
 			#region MAINQ_ANSWER_INCORRECT_WEAK
 		case UserReactionType.MainQuestionAnswerIncorrectWeak:
 
-			randomValue = Random.value;
 
-			if (usedConfirmQ && !usedReasonQ) {//when Not used ResonQ
-
-				if(randomValue <= 1.0f / 3.0f){
-					selectedDialog = DialogHolder.I.GetRandomReasonQ();
-					usedReasonQ = true;
-				} else if(randomValue <= 2.0f / 3.0f){
-					selectedDialog = DialogHolder.I.GetRandomDisagreement_Weak();
-				} else {
-					selectedDialog = DialogHolder.I.GetRandomDisagreement_Simple();
-				}
-
-			} else if (!usedConfirmQ && usedReasonQ) {//not used confirmQ
-					
-				if(randomValue <= 1.0f / 3.0f){
+			//direct inform answer with a probability 30%
+			if(Random.value >= 0.7f){
+				saidCorrection = true;
+				selectedDialog = correction;
+			}else{
+				//50% disagreement 50% confirmQ
+				if(Random.value >= 0.5f && !usedConfirmQ){
 					selectedDialog = DialogHolder.I.GetRandomConfirmQ();
 					usedConfirmQ = true;
-				} else if(randomValue <= 2.0f / 3.0f){
-					selectedDialog = DialogHolder.I.GetRandomDisagreement_Weak();
-				} else {
-					selectedDialog = DialogHolder.I.GetRandomDisagreement_Simple();
-				}
-
-			} else if(!usedReasonQ && !usedConfirmQ){ //Not use ConfirmQ and ReasonQ
-
-				if(randomValue <= 1.0f / 4.0f){
-					selectedDialog = DialogHolder.I.GetRandomConfirmQ();
-					usedConfirmQ = true;
-				} else if(randomValue <= 2.0f / 4.0f){
-					selectedDialog = DialogHolder.I.GetRandomDisagreement_Weak();
-				} else if(randomValue <= 3.0f / 4.0f){
-					selectedDialog = DialogHolder.I.GetRandomDisagreement_Simple();
-				} else {
-					selectedDialog = DialogHolder.I.GetRandomReasonQ();
-					usedReasonQ = true;
-				}
-
-			} else {
-				
-				if (randomValue >= 1.0f / 2.0f) {
-					selectedDialog = DialogHolder.I.GetRandomDisagreement_Simple();
-				} else {
-					selectedDialog = DialogHolder.I.GetRandomDisagreement_Weak();;
+				}else{
+					//50% weak and 50% simple
+					if(Random.value >= 0.5f){
+						selectedDialog = DialogHolder.I.GetRandomDisagreement_Weak();
+					}else{
+						selectedDialog = DialogHolder.I.GetRandomDisagreement_Simple();
+					}
 				}
 			}
-
 			break;
 			#endregion //reasonQ, disagreement weak, disagreement simple, confirmQ hint
 			#region MAINQ_ANSWER_INCORRECT_STRONG
 		case UserReactionType.MainQuestionAnswerIncorrectStrong:
 
-			randomValue = Random.value;
-
-			if (usedConfirmQ && !usedReasonQ) {//when Not used ResonQ
-
-				if(randomValue <= 1.0f / 3.0f){
-					selectedDialog = DialogHolder.I.GetRandomReasonQ();
-					usedReasonQ = true;
-				} else if(randomValue <= 2.0f / 3.0f){
-					selectedDialog = DialogHolder.I.GetRandomDisagreement_Strong();
-				} else {
-					selectedDialog = DialogHolder.I.GetRandomDisagreement_Simple();
-				}
-
-			} else if (!usedConfirmQ && usedReasonQ) {//not used confirmQ
-
-				if(randomValue <= 1.0f / 3.0f){
+			//direct inform answer with a probability 30%
+			if(Random.value >= 0.7f){
+				saidCorrection = true;
+				selectedDialog = correction;
+			}else{
+				//50% disagreement 50% confirmQ
+				if(Random.value >= 0.5f && !usedConfirmQ){
 					selectedDialog = DialogHolder.I.GetRandomConfirmQ();
 					usedConfirmQ = true;
-				} else if(randomValue <= 2.0f / 3.0f){
-					selectedDialog = DialogHolder.I.GetRandomDisagreement_Strong();
-				} else {
-					selectedDialog = DialogHolder.I.GetRandomDisagreement_Simple();
-				}
-
-			} else if(!usedReasonQ && !usedConfirmQ){ //Not use ConfirmQ and ReasonQ
-
-				if(randomValue <= 1.0f / 4.0f){
-					selectedDialog = DialogHolder.I.GetRandomConfirmQ();
-					usedConfirmQ = true;
-				} else if(randomValue <= 2.0f / 4.0f){
-					selectedDialog = DialogHolder.I.GetRandomDisagreement_Strong();
-				} else if(randomValue <= 3.0f / 4.0f){
-					selectedDialog = DialogHolder.I.GetRandomDisagreement_Simple();
-				} else {
-					selectedDialog = DialogHolder.I.GetRandomReasonQ();
-					usedReasonQ = true;
-				}
-
-			} else {
-
-				if (randomValue >= 1.0f / 2.0f) {
-					selectedDialog = DialogHolder.I.GetRandomDisagreement_Strong();
-				} else {
-					selectedDialog = DialogHolder.I.GetRandomDisagreement_Weak();;
+				}else{
+					//50% weak and 50% simple
+					if(Random.value >= 0.5f){
+						selectedDialog = DialogHolder.I.GetRandomDisagreement_Strong();
+					}else{
+						selectedDialog = DialogHolder.I.GetRandomDisagreement_Simple();
+					}
 				}
 			}
 			break; 
@@ -197,15 +139,7 @@ public class Quiz : MonoBehaviour {
 			#region NO_REACTION
 		case UserReactionType.NoReaction:
 			//hint or feedback eliciation
-			if(hints.Count > 0){
-				if(Random.value >= 0.5f){
-					selectedDialog = GetHint();
-				}else{
-					selectedDialog = GetRandomFeedbackEliciation ();	
-				}
-			} else {
-				selectedDialog = GetRandomFeedbackEliciation ();	
-			}
+			selectedDialog = GetRandomFeedbackEliciation ();	
 			break;
 			#endregion //eliciation, or make hint. if use all hint, we can use eliciation and recommend use corrention with key command
 		default:
@@ -214,7 +148,7 @@ public class Quiz : MonoBehaviour {
 		return selectedDialog;
 	}
 	public AudioClip RequestedRepeat(){
-		return selectedDialog;
+		return mainQuestion;
 	}
 	public Texture2D GetQuizTexture(){
 		return quizTexture;
@@ -222,26 +156,20 @@ public class Quiz : MonoBehaviour {
 	public Texture2D GetAnswerTexture(){
 		return answerTexture;
 	}
-	public bool finishedMainQ(){
-		return mainQuestion == null;
-	}
 	public AudioClip GetMainQ(){
 		selectedDialog = mainQuestion;
-		mainQuestion = null;
+		saidMainQuestion = true;
 		return selectedDialog;
 	}
-
-	private AudioClip GetHint(){
+	public AudioClip GetHint(){
 		AudioClip usedhint = hints [0];
 		hints.RemoveAt (0);
 		return usedhint;
 	}
-
 	public AudioClip GetCorrection(){
 		saidCorrection = true;
 		return correction;	
 	}
-
 	public AudioClip GetRandomFeedbackEliciation (){
 		return DialogHolder.I.GetRandomFeedbackEliciation();
 	}
