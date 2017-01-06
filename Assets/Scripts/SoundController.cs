@@ -9,6 +9,7 @@ public class SoundController : Singleton<SoundController> {
 	private AudioSource audioSource;
 	private bool _isPlaying = false;
 
+
 	void Start(){
 		audioSource = this.GetComponent<AudioSource> ();
 
