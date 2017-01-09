@@ -39,12 +39,12 @@ public class SoundController : Singleton<SoundController> {
 	}
 
 	void LogStartAudio(){
-		TimeStumpManager.I.WriteTimeStump ("START_AUDIO_" + audioSource.clip.name);
+		TimeStumpManager.I.WriteTimeStump ("START_AUDIO_" + audioSource.clip.name, true);
 
 	}
 
 	void LogEndAudio(){
-		TimeStumpManager.I.WriteTimeStump ("END_AUDIO_" + audioSource.clip.name);
+		TimeStumpManager.I.WriteTimeStump ("END_AUDIO_" + audioSource.clip.name, false);
 		//SpeechDetectionManager.I.waitDetection = true;
 	}
 }

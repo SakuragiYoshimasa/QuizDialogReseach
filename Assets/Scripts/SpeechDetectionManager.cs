@@ -22,7 +22,7 @@ public class SpeechDetectionManager : Singleton<SpeechDetectionManager> {
 		Debug.Log ("Loudness:" + micInput.GetLoudness().ToString());
 		if(waitDetection && threshold < micInput.GetLoudness()){
 			waitDetection = false;
-			TimeStumpManager.I.WriteTimeStump ("USER_SPEECH_START");
+			//TimeStumpManager.I.WriteTimeStump ("USER_SPEECH_START", );
 		}
 	}
 }
