@@ -212,7 +212,7 @@ public class QuizController : Singleton<QuizController> {
 		previousTime = DateTime.Now.Hour * 60 * 60 + DateTime.Now.Minute * 60 + DateTime.Now.Second;
 	}
 	public void SetWaiting(){
-		isWaitingResponse = true;
+		//isWaitingResponse = true;
 	}
 	public void SetNotWaiting(){
 		isWaitingResponse = false;
