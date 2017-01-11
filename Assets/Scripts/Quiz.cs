@@ -50,7 +50,7 @@ public class Quiz : MonoBehaviour {
 			}else{
 
 				//50% agreement 50% confirmQ
-				if(Random.value >= 0.5f && !usedConfirmQ){
+				if(Random.value >= 0.4f && !usedConfirmQ){
 					selectedDialog = DialogHolder.I.GetRandomConfirmQ();
 					usedConfirmQ = true;
 				}else{
@@ -70,7 +70,7 @@ public class Quiz : MonoBehaviour {
 				selectedDialog = correction;
 			}else{
 				//50% disagreement 50% confirmQ
-				if(Random.value >= 0.5f && !usedConfirmQ){
+				if(Random.value >= 0.4f && !usedConfirmQ){
 					selectedDialog = DialogHolder.I.GetRandomConfirmQ();
 					usedConfirmQ = true;
 				}else{
@@ -93,7 +93,7 @@ public class Quiz : MonoBehaviour {
 				selectedDialog = correction;
 			}else{
 				//50% disagreement 50% confirmQ
-				if(Random.value >= 0.5f && !usedConfirmQ){
+				if(Random.value >= 0.4f && !usedConfirmQ){
 					selectedDialog = DialogHolder.I.GetRandomConfirmQ();
 					usedConfirmQ = true;
 				}else{
