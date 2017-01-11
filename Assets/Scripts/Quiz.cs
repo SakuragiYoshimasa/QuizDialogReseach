@@ -44,13 +44,13 @@ public class Quiz : MonoBehaviour {
 		case UserReactionType.MainQuestionAnswerCorrect:
 
 			//direct inform answer with a probability 30%
-			if(Random.value >= 0.8f){
+			if(Random.value >= 0.75f){
 				saidCorrection = true;
 				selectedDialog = correction;
 			}else{
 
 				//50% agreement 50% confirmQ
-				if(Random.value >= 0.4f && !usedConfirmQ){
+				if(Random.value >= 0.5f && !usedConfirmQ){
 					selectedDialog = DialogHolder.I.GetRandomConfirmQ();
 					usedConfirmQ = true;
 				}else{
@@ -65,12 +65,12 @@ public class Quiz : MonoBehaviour {
 
 
 			//direct inform answer with a probability 30%
-			if(Random.value >= 0.8f){
+			if(Random.value >= 0.75f){
 				saidCorrection = true;
 				selectedDialog = correction;
 			}else{
 				//50% disagreement 50% confirmQ
-				if(Random.value >= 0.4f && !usedConfirmQ){
+				if(Random.value >= 0.5f && !usedConfirmQ){
 					selectedDialog = DialogHolder.I.GetRandomConfirmQ();
 					usedConfirmQ = true;
 				}else{
@@ -88,12 +88,12 @@ public class Quiz : MonoBehaviour {
 		case UserReactionType.MainQuestionAnswerIncorrectStrong:
 
 			//direct inform answer with a probability 30%
-			if(Random.value >= 0.8f){
+			if(Random.value >= 0.75f){
 				saidCorrection = true;
 				selectedDialog = correction;
 			}else{
 				//50% disagreement 50% confirmQ
-				if(Random.value >= 0.4f && !usedConfirmQ){
+				if(Random.value >= 0.5f && !usedConfirmQ){
 					selectedDialog = DialogHolder.I.GetRandomConfirmQ();
 					usedConfirmQ = true;
 				}else{
