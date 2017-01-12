@@ -148,7 +148,7 @@ public class Quiz : MonoBehaviour {
 		return selectedDialog;
 	}
 	public AudioClip RequestedRepeat(){
-		return mainQuestion;
+		return selectedDialog;
 	}
 	public Texture2D GetQuizTexture(){
 		return quizTexture;
